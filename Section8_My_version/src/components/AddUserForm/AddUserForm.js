@@ -36,7 +36,7 @@ const AddUserForm = (props) => {
 
   return (
     <Card>
-      <div className="form-control">
+      <div className={styles.input}>
         <form onSubmit={handleSubmit}>
           <label>Username</label>
           <input
@@ -46,7 +46,9 @@ const AddUserForm = (props) => {
           />
           <label>Age (Years)</label>
           <input onChange={ageChangeHandler} value={age} type="number" />
-          <button type="submit">Add User</button>
+          <button className={styles.button} type="submit">
+            Add User
+          </button>
         </form>
       </div>
     </Card>

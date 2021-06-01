@@ -1,4 +1,4 @@
-input {
+.input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -8,12 +8,12 @@ input {
   box-sizing: border-box;
 }
 
-button {
+.button {
   padding: 15px 25px;
   border-radius: 10px;
   cursor: pointer;
 }
 
-button:hover {
+.button:hover {
   background-color: #e7e7e7;
 }

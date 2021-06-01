@@ -1,50 +1,22 @@
-import { useState } from "react";
-import "./App.css";
-import AddUserForm from "./components/AddUserForm/AddUserForm";
-import Modal from "./components/Modal/Modal";
-import UserList from "./components/UserList/UserList";
+import React, { useState } from "react";
+
+import AddUser from "./components/Users/AddUser";
+import UsersList from "./components/Users/UsersList";
 
 function App() {
   const [users, setUsers] = useState([]);
-  const [modalMessage, setModalMessage] = useState("");
 
   const addUserHandler = (user) => {
-    const newUser = {
-      id: Math.random(),
-      ...user,
-    };
     setUsers((prevState) => {
+      const newUser = { id: Math.random().toString(), ...user };
       return [...prevState, newUser];
     });
   };
 
-  const deleteUserHandler = (id) => {
-    setUsers((prevState) => {
-      const newUsers = prevState.filter((user) => user.id !== id);
-      return newUsers;
-    });
-  };
-
-  const handleError = (msg) => {
-    setModalMessage(msg);
-  };
-
-  const closeModal = () => {
-    setModalMessage("");
-  };
-
-  const modalWithMessage = (
-    <Modal open={modalMessage !== ""} closeModal={closeModal}>
-      {modalMessage}
-    </Modal>
-  );
-
   return (
-    <div className="App">
-      {modalWithMessage}
-      <AddUserForm addUser={addUserHandler} handleError={handleError} />
-
-      <UserList users={users} deleteUser={deleteUserHandler} />
+    <div>
+      <AddUser onAddUser={addUserHandler} />
+      {users.length > 0 ? <UsersList users={users} /> : null}
     </div>
   );
 }
