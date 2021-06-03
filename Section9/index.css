@@ -4,13 +4,9 @@
 
 html {
   font-family: sans-serif;
-  background: #fff;
+  background: #dadada;
 }
 
 body {
   margin: 0;
-}
-
-main {
-  margin-top: 6rem;
 }
