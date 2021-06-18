@@ -1,57 +1,36 @@
-import { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Redirect, Route, Switch } from "react-router-dom";
+import Layout from "./components/layout/Layout";
+import NoQuotesFound from "./components/quotes/NoQuotesFound";
 
-import Cart from "./components/Cart/Cart";
-import Layout from "./components/Layout/Layout";
-import Products from "./components/Shop/Products";
-import Notification from "./components/UI/Notification";
-import { fetchCartData, sendCartData } from "./store/cart-actions";
-import { clearNotification } from "./store/ui-slice";
-
-// we are sending cart data when component is mounting
-// we want to make sure that it wont send cart data in first load
-// set up isInitial variable outside of component so it is not reinitialized
-// when component is reinitialized
-let isInitial = true;
+import AddAQuote from "./pages/AddAQuote";
+import AllQuotes from "./pages/AllQuotes";
+import NotFound from "./pages/NotFound";
+import QuoteDetail from "./pages/QuoteDetail";
 
 function App() {
-  const dispatch = useDispatch();
-
-  const showCart = useSelector((state) => state.ui.showCart);
-  const notification = useSelector((state) => state.ui.notification);
-  const cart = useSelector((state) => state.cart);
-
-  useEffect(() => {
-    const timeout = dispatch(clearNotification());
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [dispatch, notification]);
-
-  useEffect(() => {
-    dispatch(fetchCartData());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-
-    if (cart.changed) {
-      dispatch(sendCartData(cart));
-    }
-  }, [cart, dispatch]);
-
   return (
-    <Fragment>
-      {notification && <Notification notification={notification} />}
-      <Layout>
-        {showCart && <Cart />}
-        <Products />
-      </Layout>
-    </Fragment>
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to="/quotes" />
+        </Route>
+        <Route path="/quotes" exact>
+          <AllQuotes />
+        </Route>
+        <Route path="/quotes/:quoteId">
+          <QuoteDetail />
+        </Route>
+        <Route path="/new-quote">
+          <AddAQuote />
+        </Route>
+        <Route path="/no-quotes-found">
+          <NoQuotesFound />
+        </Route>
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 
